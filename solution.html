@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HCI Solution | Hybrid Load More</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="solution-body">
+  <main class="solution-shell">
+    <header class="solution-head">
+      <a class="back-link" href="index.html">Back to Home</a>
+      <h1>Round 3: HCI Hybrid Solution</h1>
+      <p>Dynamic Load More + sticky spatial anchors + calmer visual loading.</p>
+    </header>
+
+    <section class="comparison-panel">
+      <h2>Experiment Summary</h2>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h3>Round 1 (Pagination)</h3>
+          <p id="paginationSummary">No data yet.</p>
+        </div>
+        <div class="summary-card">
+          <h3>Round 2 (Infinite Scroll)</h3>
+          <p id="infiniteSummary">No data yet.</p>
+        </div>
+        <div class="summary-card highlight">
+          <h3>HCI Insight</h3>
+          <p id="insightSummary">Complete both rounds to see the comparison insight.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="hybrid-lab">
+      <aside class="hybrid-side">
+        <h2>Hybrid Controls</h2>
+        <p id="anchorLabel" class="anchor-label">Viewing items 1-20 of 200</p>
+        <p class="muted">This structure slows momentum and gives spatial memory anchors.</p>
+        <button class="primary-btn" id="startHybridBtn" type="button">Start Hybrid Demo</button>
+        <button class="secondary-btn" id="loadMoreBtn" type="button" disabled>Load 20 More</button>
+        <button class="ghost-btn" id="resetResultsBtn" type="button">Reset Saved Results</button>
+      </aside>
+
+      <div id="hybridFeed" class="hybrid-feed">
+        <div id="hybridGrid" class="product-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="solution.js"></script>
+</body>
+</html>

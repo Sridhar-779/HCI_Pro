@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Round 2 | Infinite Scroll Experiment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="experiment-body">
+  <main class="experiment-shell">
+    <aside class="side-panel">
+      <a class="back-link" href="index.html">Back to Home</a>
+      <h1>Round 2: Infinite Scroll</h1>
+      <p class="muted">Find all three target items with continuous loading.</p>
+
+      <div class="target-box">
+        <p class="target-label">Current Target</p>
+        <p class="target-name" id="targetName">Press Start</p>
+      </div>
+
+      <div class="metric-grid">
+        <div class="metric-card">
+          <p>Mode</p>
+          <strong id="modeTxt">Infinite Scroll</strong>
+        </div>
+        <div class="metric-card">
+          <p>Overshoots</p>
+          <strong id="overshootTxt">0</strong>
+        </div>
+        <div class="metric-card">
+          <p>Found</p>
+          <strong id="foundTxt">0 / 3</strong>
+        </div>
+        <div class="metric-card">
+          <p>Time</p>
+          <strong id="timerTxt">0.0s</strong>
+        </div>
+      </div>
+
+      <label class="fatigue-label" for="fatigueInput">Subjective Fatigue (1-10)</label>
+      <input id="fatigueInput" type="range" min="1" max="10" value="5" />
+      <p class="fatigue-value">Value: <span id="fatigueValue">5</span></p>
+
+      <button class="primary-btn" id="startBtn" type="button">Start Round 2</button>
+      <button class="secondary-btn" id="saveBtn" type="button" disabled>Save Round 2 Result</button>
+      <a class="next-link" id="nextLink" href="solution.html" aria-disabled="true">Go to Solution Page</a>
+
+      <div class="report-box" id="roundReport" hidden></div>
+    </aside>
+
+    <section class="feed-stage">
+      <header class="feed-head">
+        <h2>Mock Product Feed (200 Items)</h2>
+        <p>Scroll continuously. New batches load near the bottom.</p>
+      </header>
+
+      <div id="feedContainer" class="feed-container">
+        <div id="productGrid" class="product-grid"></div>
+        <div id="paginationWrap" class="pagination-wrap"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="experiment.js"></script>
+  <script>
+    window.HCIExperiment.start("infinite");
+  </script>
+</body>
+</html>

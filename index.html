@@ -3,91 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hands-Free Reading and Media Dashboard</title>
+  <title>HCI Simulator | Infinite Scroll vs Pagination</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="ambient" aria-hidden="true">
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-  </div>
+  <main class="home-shell">
+    <section class="hero-card">
+      <p class="kicker">HCI Experiment Engine</p>
+      <h1>Infinite Scroll vs Pagination Simulator</h1>
+      <p class="hero-copy">
+        This project runs a two-round usability experiment on a 200-item mock product catalog, then opens a third page with an HCI hybrid solution and metric comparison.
+      </p>
 
-  <main class="page">
-    <header class="topbar" role="region" aria-label="Control Panel">
-      <div class="title-row">
-        <h1>Hands-Free Reading and Media Dashboard</h1>
-        <p class="subtitle">Head down/up to scroll, smile or open mouth to play/pause, tilt head to switch theme.</p>
+      <div class="route-grid">
+        <a class="route-card" href="round1-pagination.html">
+          <h2>Round 1</h2>
+          <p>Pagination interface with numbered pages and target search tasks.</p>
+          <span>Open Round 1</span>
+        </a>
+
+        <a class="route-card" href="round2-infinite.html">
+          <h2>Round 2</h2>
+          <p>Infinite scrolling interface with dynamic loading and overshoot tracking.</p>
+          <span>Open Round 2</span>
+        </a>
+
+        <a class="route-card" href="solution.html">
+          <h2>Final Solution</h2>
+          <p>Hybrid Load More + sticky anchors + fatigue breakdown and recommendations.</p>
+          <span>Open Solution</span>
+        </a>
       </div>
 
-      <div class="controls">
-        <button id="startBtn" type="button">Start Camera (Ask Permission)</button>
-        <button id="lockBtn" type="button" disabled>Unlock Tracking</button>
-        <button id="calibrateBtn" type="button" disabled>Calibrate Neutral</button>
-        <button id="playBtn" type="button" disabled>Play or Pause</button>
-        <button id="themeBtn" type="button">Toggle Theme</button>
+      <div class="note-row">
+        <strong>Flow:</strong> Start with Round 1, continue with Round 2, then open the Solution page for comparative HCI insights.
       </div>
-
-      <div class="status" id="statusRow" aria-live="polite">
-        <span class="chip warn" id="faceStatus">Face: waiting</span>
-        <span class="chip" id="trackingStatus">Tracking: locked</span>
-        <span class="chip" id="pitchStatus">Pitch: 0.000</span>
-        <span class="chip" id="rollStatus">Roll: 0.000</span>
-        <span class="chip" id="mouthStatus">Mouth/Smile: 0.00</span>
-      </div>
-    </header>
-
-    <section class="layout">
-      <article class="panel" id="articlePanel">
-        <h2>Accessible Interface Story</h2>
-        <p>Human Computer Interaction is strongest when it respects different bodies, contexts, and abilities. This dashboard is designed around that principle. Instead of requiring precision cursor movement, it listens to head orientation and facial expression in a controlled way, then maps those signals into predictable actions with safety boundaries.</p>
-        <p>In practical terms, that means two key protections are built into the interaction model. First, movement data is smoothed over short windows so accidental micro-motions do not create jitter. Second, every potentially disruptive behavior can be paused with a lock state, preventing the classic Midas Touch problem where normal movement accidentally triggers commands.</p>
-
-        <h2>Why Calibration Matters</h2>
-        <p>People naturally hold their heads at different angles. A one-size-fits-all threshold creates bias and fatigue, especially for users with limited neck mobility. Calibration turns a personal resting posture into the neutral baseline. Once set, only meaningful deviations from that baseline cause scrolling or mode switching.</p>
-        <p>The same logic can scale to kiosks, assistive reading tools, public displays, and educational software. A high-quality HCI system is not just responsive. It is adaptive, transparent, and reversible. Each interaction here can be overridden by direct controls at any point.</p>
-
-        <h2>Reading Experiment Notes</h2>
-        <p>As you test the page, try short sessions first. Keep your face centered and perform one gesture at a time. Unlock tracking, calibrate while you are relaxed, and then slowly look slightly downward. You should notice the article begin to glide rather than jump. If it feels too sensitive, lock tracking, recalibrate, and resume.</p>
-        <p>For media control, a deliberate smile or mouth-open gesture should trigger play or pause once, followed by a cooldown period. This cooldown reduces unintentional repeated toggles while you are speaking or laughing. Similar debounce techniques are common in multimodal interfaces where human movement is continuous but commands should be discrete.</p>
-
-        <h2>Design Reflection</h2>
-        <p>The dashboard is intentionally minimal in controls but rich in feedback. Real-time status chips expose pitch, roll, and expression intensity so users can mentally model the system. This is an HCI principle known as observability. When users can see system state, they learn faster and trust the interaction more.</p>
-        <p>Future improvements could include profile presets, adaptive thresholds learned per user, and eye-gaze integration for section jumping. Even in this single-file prototype, the central goal remains the same: reduce friction and increase agency through inclusive interaction design.</p>
-
-        <h2>Extra Reading Segment</h2>
-        <p>Assistive technology prototypes often fail not because the sensing model is weak, but because the interaction contract is unclear. A strong contract defines when sensing begins, how uncertainty is handled, what events are ignored, and how users recover from mistakes. This project includes all four through start, lock, cooldown, and manual override controls.</p>
-        <p>Try a final loop: play audio using expression, tilt to switch theme, then continue reading hands-free. If you can complete that flow comfortably in under a minute, the design has reached a useful baseline for discoverability and motor accessibility.</p>
-      </article>
-
-      <aside class="side">
-        <section class="panel">
-          <h2 style="margin-top:0;">Face Monitor</h2>
-          <div class="camera-wrap" aria-hidden="true">
-            <video id="video" autoplay playsinline muted></video>
-            <canvas id="overlay"></canvas>
-          </div>
-          <p class="small" id="cameraNote">Camera is idle. Press "Start Camera" to begin.</p>
-        </section>
-
-        <section class="panel">
-          <h2 style="margin-top:0;">Media</h2>
-          <audio id="player" controls preload="none" style="width:100%;">
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
-            Your browser does not support HTML audio.
-          </audio>
-          <p class="small">Gesture trigger strength</p>
-          <div class="meter" aria-hidden="true"><span id="gestureMeter"></span></div>
-          <p class="small">A mouth-open or smile gesture toggles play and pause with cooldown.</p>
-        </section>
-      </aside>
     </section>
-
-    <p class="footer-note">Tip: if your browser blocks camera on local files, run a local static server and open this page over http://localhost.</p>
   </main>
-
-  <script type="module" src="script.js"></script>
 </body>
 </html>

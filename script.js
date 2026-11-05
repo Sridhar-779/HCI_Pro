@@ -42,6 +42,54 @@ const smoothWindow = {
   smile: []
 };
 
+async function getCameraPermissionState() {
+  if (!navigator.permissions || !navigator.permissions.query) {
+    return "unknown";
+  }
+
+  try {
+    const status = await navigator.permissions.query({ name: "camera" });
+    return status.state;
+  } catch (_err) {
+    return "unknown";
+  }
+}
+
+async function requestCameraStream() {
+  const tries = [
+    {
+      video: {
+        width: { ideal: 960 },
+        height: { ideal: 720 },
+        facingMode: "user"
+      },
+      audio: false
+    },
+    {
+      video: {
+        width: { ideal: 960 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    },
+    {
+      video: true,
+      audio: false
+    }
+  ];
+
+  let lastError = null;
+  for (const constraints of tries) {
+    try {
+      return await navigator.mediaDevices.getUserMedia(constraints);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError;
+}
+
 function pushAndAverage(bucket, value, limit = 5) {
   bucket.push(value);
   if (bucket.length > limit) bucket.shift();
@@ -198,15 +246,16 @@ async function startCamera() {
   }
 
   try {
+    const permissionState = await getCameraPermissionState();
+    if (permissionState === "denied") {
+      dom.cameraNote.textContent = "Camera permission is blocked in browser settings. Enable camera for this site, then retry.";
+      setChip(dom.faceStatus, "Face: blocked", "warn");
+      dom.startBtn.disabled = false;
+      return;
+    }
+
     // Ask for camera first so webcam preview starts even if tracking assets fail later.
-    stream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        width: { ideal: 960 },
-        height: { ideal: 720 },
-        facingMode: "user"
-      },
-      audio: false
-    });
+    stream = await requestCameraStream();
 
     dom.video.srcObject = stream;
     await dom.video.play();
@@ -279,8 +328,11 @@ async function startCamera() {
       dom.cameraNote.textContent = "No webcam found. Connect a camera and try again.";
     } else if (err && err.name === "NotReadableError") {
       dom.cameraNote.textContent = "Camera is busy in another app. Close other apps using the webcam and retry.";
+    } else if (err && err.name === "OverconstrainedError") {
+      dom.cameraNote.textContent = "Camera constraints were not supported. Retried with safer settings, but failed.";
     } else {
-      dom.cameraNote.textContent = "Could not start camera. Check permissions or browser support.";
+      const details = err && err.name ? ` (${err.name})` : "";
+      dom.cameraNote.textContent = `Could not start camera. Check permissions or browser support${details}.`;
     }
     setChip(dom.faceStatus, "Face: blocked", "warn");
     dom.startBtn.disabled = false;
